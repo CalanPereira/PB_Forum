@@ -1,12 +1,13 @@
 //import { auth,signInWithPopup , googleAuthProvider } from '../lib/firebase'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth ,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useContext } from "react";
 import { UserContext } from "@/lib/context";
-
+import { auth } from "@/lib/firebase";
 
 export default function EnterPage({ }){
     const { user, username } = useContext(UserContext);
-
+    //const user=true;
+    //const username=true;
     return (
      <main>
         {user ?
@@ -21,7 +22,6 @@ export default function EnterPage({ }){
 function SignInButton(){
     
     const signInWithGoogle = async () =>{
-        const auth = getAuth();
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth , provider);
     };
@@ -33,7 +33,7 @@ function SignInButton(){
 }
 
 function SignOutButton(){
-    return <button onClick={() => getAuth().signOut}>sign Out</button>;
+    return <button onClick={() => auth.signOut}>sign Out</button>;
 }
 
 function UsernameForm(){
