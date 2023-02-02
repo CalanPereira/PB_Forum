@@ -76,7 +76,8 @@ function UsernameForm(){
             const ref= doc(firestore,'usernames/${username}');
             const { exists } = await getDoc(ref);
             console.log('Firestore read executed');
-            setIsValid(!exists);
+            console.log(exists.length);
+            setIsValid(!exists.length);
             setLoading(false);
         }
     },500),
@@ -90,7 +91,7 @@ function UsernameForm(){
         const usernameDoc = doc(firestore,`username/${formValue}`);
 
         const batch = writeBatch(firestore);
-        batch.set(userDoc, { username: formValue, photoURL: user.photoURL, displayName: user,displayName});
+        batch.set(userDoc, { username: formValue, photoURL: user.photoURL, displayName: user.displayName});
         batch.set(usernameDoc, { uid: user.uid});
 
         await batch.commit();
@@ -128,8 +129,9 @@ function UsernameMessage({ username, isValid, loading}){
     if(loading){
         return <p>Checking...</p>;
     }else if(isValid){
-        return <p className="text-sucess">{username} is available</p>;
+        return <p className="text-success">{username} is available</p>;
     }else if(username && !isValid){
+        //return <p className="text-success">{username} is available</p>;
         return <p className="text-danger">That username is taken!</p>;
     }else{
         return <p></p>;
